@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <form name="f1" method="post" action="<?php echo site_url('welcome/patata') ?>">
 Nom:<input type="text" name="nom">
-<input type="submit">
+<input type="submit" name="enviar" value="Enviar">
 </form>
 </body>
 </html>
