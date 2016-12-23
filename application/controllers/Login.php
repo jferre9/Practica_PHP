@@ -11,16 +11,26 @@ class Login extends CI_Controller {
     }
 
     public function index() {
+        $this->session->set_userdata('loguejat',FALSE);
         $data['error'] = false;
+        $controlador = $this->session->flashdata('controlador');
+        
+        if ($controlador != NULL) $this->session->set_flashdata('controlador',$controlador);
+        else $controlador = 'welcome';
+        
         if ($this->input->post('enviar')) {
             $this->load->database();
             $this->load->model('usuari');
             $email = $this->input->post('email');
             $pass = $this->input->post('pass');
             $usuari = $this->usuari->login($email,$pass);
+            var_dump($usuari);
             if ($usuari) {
+                $usuari['loguejat'] = TRUE;
                 $this->session->set_userdata($usuari);
                 var_dump($usuari);
+                redirect(site_url($controlador));
+                /*
                 if ($usuari['email'] === 'admin') {
                     redirect(site_url('administrador'));
                     return;
@@ -37,13 +47,16 @@ class Login extends CI_Controller {
                     redirect(site_url('cobrar'));
                     return;
                 }
+                */
+                
                 
             } else {
                 $data['error'] = 'Usuari o contrasenya incorrectes';
             }
             
         }
-        $this->load->view('login',$data);
+        $data['vista'] = 'login';
+        $this->load->view('template',$data);
     }
     
     

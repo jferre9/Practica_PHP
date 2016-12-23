@@ -26,9 +26,21 @@ class Usuari extends CI_Model {
         $this->db->delete('user', array('id' => $id));
     }
     
-    public function login($nom, $pass) {
+    public function llista_usuaris() {
+        $this->db->select('id,email,CONCAT(nom," ",cognoms) as nom,cambrer,cuiner,cobrar');
+        $this->db->where('email !=', 'admin');
+        $query = $this->db->get('usuari');
+        
+        $data = false;
+        foreach ($query->result_array() as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+    
+    public function login($email, $pass) {
         $this->db->select('id,email,cambrer,cuiner,cobrar');
-        $this->db->where('nom', $nom);
+        $this->db->where('email', strtolower($email));
         $this->db->where('pass', md5($pass));
         $query = $this->db->get('usuari');
         

@@ -6,10 +6,14 @@ class Cambrer extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        
+        permisos('cambrer', 'cambrer');
     }
 
     public function index() {
-        $this->load->view('welcome_message');
+        
+        $data['vista'] = 'welcome_message';
+        $this->load->view('template',$data);
     }
 
 }
