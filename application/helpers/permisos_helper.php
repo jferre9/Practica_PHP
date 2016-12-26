@@ -4,11 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('permisos')) {
 
-    
-    
     function loguejat($controlador = 'welcome') {
         //no es pot fer servir el $this a un helper
-        $CI =& get_instance();
+        $CI = & get_instance();
         $loguejat = $CI->session->userdata('loguejat');
         if ($loguejat == NULL || !$loguejat) {
             $CI->session->set_flashdata('controlador', $controlador);
@@ -18,7 +16,7 @@ if (!function_exists('permisos')) {
         }
         return true;
     }
-    
+
     /**
      * 
      * @param type $permis
@@ -27,23 +25,21 @@ if (!function_exists('permisos')) {
      */
     function permisos($permis, $controlador) {
         //no es pot fer servir el $this a un helper
-        $CI =& get_instance();
-        if (!loguejat($controlador)) return;
+        $CI = & get_instance();
+        if (!loguejat($controlador))
+            return;
         if ($permis === 'admin') {
-            if ($CI->session->userdata('email')  !== 'admin') {
+            if ($CI->session->userdata('email') !== 'admin') {
                 $CI->session->set_flashdata('error', "No tens permisos per accedir a la pagina $controlador.");
                 redirect('welcome');
             }
         } else {
             $tePermis = $CI->session->userdata($permis);
-            var_dump($tePermis);
             if ($tePermis == NULL || !$tePermis) {
                 $CI->session->set_flashdata('error', "No tens permisos per accedir a la pagina $controlador.");
                 redirect('welcome');
             }
         }
     }
-    
-    
 
 }

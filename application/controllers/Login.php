@@ -30,24 +30,6 @@ class Login extends CI_Controller {
                 $this->session->set_userdata($usuari);
                 var_dump($usuari);
                 redirect(site_url($controlador));
-                /*
-                if ($usuari['email'] === 'admin') {
-                    redirect(site_url('administrador'));
-                    return;
-                }
-                if ($usuari['cambrer']) {
-                    redirect(site_url('cambrer'));
-                    return;
-                }
-                if ($usuari['cuiner']) {
-                    redirect(site_url('cuiner'));
-                    return;
-                }
-                if ($usuari['cobrar']) {
-                    redirect(site_url('cobrar'));
-                    return;
-                }
-                */
                 
                 
             } else {
@@ -55,6 +37,7 @@ class Login extends CI_Controller {
             }
             
         }
+        
         $data['vista'] = 'login';
         $this->load->view('template',$data);
     }

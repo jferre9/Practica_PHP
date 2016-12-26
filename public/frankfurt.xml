@@ -8,10 +8,17 @@ and open the template in the editor.
 
 <frankfurt>
     <productes>
-        <producte id="1" nom="Frankfurt" categoria="Plat"/>
+        <producte id="1" nom="Frankfurt" categoria="Plat" preu="3.5"/>
+        <producte id="2" nom="Hamburguesa" categoria="Plat" preu="5.5"/>
+        <producte id="3" nom="Aigua" categoria="Beguda" preu="1"/>
     </productes>
     <taules>
         <taula id="1" nom="Taula 1"/>
+        <taula id="2" nom="Taula 2"/>
+        <taula id="3" nom="Taula 3"/>
+        <taula id="4" nom="Taula 4"/>
+        <taula id="5" nom="Taula 5"/>
+        <taula id="6" nom="Taula 6"/>
     </taules>
     
 </frankfurt>

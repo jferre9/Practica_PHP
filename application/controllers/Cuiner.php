@@ -8,10 +8,28 @@ class Cuiner extends CI_Controller {
         parent::__construct();
 
         permisos('cuiner', 'cuiner');
+        $this->load->model('comanda');
+        $this->load->model('detall');
     }
 
     public function index() {
-        $data['vista'] = 'welcome_message';
+        
+        
+        $xml = simplexml_load_file('public/frankfurt.xml');
+        
+        
+        $taules = $xml->children('taula');
+        
+        
+        
+        var_dump($taules);
+        
+        $ocupades = $this->comanda->taules_ocupades();
+        
+        var_dump($ocupades);
+        
+        
+        $data['vista'] = 'cuiner';
         $this->load->view('template', $data);
     }
 

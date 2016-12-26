@@ -38,6 +38,29 @@ class Usuari extends CI_Model {
         return $data;
     }
     
+    
+    public function get_usuari($id) {
+        $this->db->select('id,email,cambrer,cuiner,cobrar');
+        $this->db->where('id',$id);
+        $query = $this->db->get('usuari');
+        
+        if ($query->num_rows() == 1) {
+            return $query->first_row('array');
+        } else {
+            return FALSE;
+        }
+    }
+    
+    public function eliminar($id) {
+        $usuari = $this->get_usuari($id);
+        if ($usuari && $usuari['email'] != 'admin') {
+            $this->db->delete('usuari',array('id' => $id));
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
     public function login($email, $pass) {
         $this->db->select('id,email,cambrer,cuiner,cobrar');
         $this->db->where('email', strtolower($email));
@@ -47,7 +70,7 @@ class Usuari extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->first_row('array');
         } else {
-            return false;
+            return FALSE;
         }
     }
 

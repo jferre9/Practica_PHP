@@ -8,6 +8,7 @@ class Administrador extends CI_Controller {
         parent::__construct();
         
         permisos('admin', 'administrador');
+        $this->load->model('usuari');
     }
 
     public function index() {
@@ -15,6 +16,8 @@ class Administrador extends CI_Controller {
         $this->load->model('usuari');
         $data['usuaris'] = $this->usuari->llista_usuaris();
         
+        
+        $data['sessio'] = carrega_sessio();
         $data['vista'] = 'administrador';
         $this->load->view('template',$data);
     }
@@ -65,7 +68,6 @@ class Administrador extends CI_Controller {
                 echo "Tot correcte";
                 unset($_POST['enviar']);
                 unset($_POST['passconf']);
-                $this->load->model('usuari');
                 $this->usuari->insert_entry($_POST);
                 
                 redirect('administrador');
@@ -82,6 +84,19 @@ class Administrador extends CI_Controller {
             redirect('administrador');
             return;
         }
+        $usuari = $this->usuari->get_usuari($id);
+        if (!$usuari || $usuari['email'] == 'admin') {
+            redirect('administrador');
+            return;
+        }
+        $data['usuari'] = $usuari;
+        
+        
+        
+        $data['vista'] = 'registre';
+        $this->load->view('template',$data);
+        
+        
     }
     
     public function borrar($id = NULL) {
@@ -89,6 +104,12 @@ class Administrador extends CI_Controller {
             redirect('administrador');
             return;
         }
+        
+        if (!$this->usuari->eliminar($id)) {
+            $this->session->set_flashdata('error',"No s'ha pogut eliminar l'usuari");
+        }
+        redirect('administrador');
+        
     }
 
 }
