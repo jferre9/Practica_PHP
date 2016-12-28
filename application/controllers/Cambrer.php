@@ -87,13 +87,30 @@ class Cambrer extends CI_Controller {
         
         $productes_xml = $xml->xpath('//producte');
         foreach ($productes_xml as $producte) {
-            $productes[(string)$producte["id"]] = (string)$producte["nom"];
+            //$productes[(string)$producte["id"]] = (string)$producte["nom"];
+            $prod["id"] = (string)$producte["id"];
+            $prod["nom"] = (string)$producte["nom"];
+            $prod['preu'] = ((string)$producte["preu"]);
+            $prod['categoria'] = (string)$xml->xpath("//categoria[@id='".(string)$producte['categoria']."']/@nom")[0];
+            $productes[] = $prod;
         }
         $data['productes'] = $productes;
         
         if ($this->session->flashdata('error') != NULL) $data['error'] = $this->session->flashdata('error');
         
-        $data['productes_demanats'] = $this->detall->get_detalls_no_iniciats($taula_id);
+        //$data['productes_demanats'] = $this->detall->get_detalls_no_iniciats($taula_id);
+        
+        $productes_demanats = $this->detall->get_detalls_taula($taula_id);
+        
+        for ($i = 0; $i < count($productes_demanats); $i++) {
+            //echo "<br>id = ".$productes_demanats[$i]['id']."<br>";
+            $producte = $xml->xpath("//producte[@id='".$productes_demanats[$i]['producte_id']."']")[0];
+            $productes_demanats[$i]["nom"] = (string)$producte['nom'];
+            $productes_demanats[$i]['categoria'] = (string)$xml->xpath("//categoria[@id='".(string)$producte['categoria']."']/@nom")[0];
+        }
+        
+        
+        $data['productes_demanats'] = $productes_demanats;
         
         $data['vista'] = 'taula';
         $this->load->view('template', $data);
@@ -131,7 +148,10 @@ class Cambrer extends CI_Controller {
         
         $preu = (double)$xpath[0]["preu"];
         
-        $afegir = $this->detall->afegir($comanda["id"],$producte_id,$preu);
+        $cuinar = (int)$xml->xpath("//categoria[@id='".(string)$xpath[0]['categoria']."']/@cuinar")[0];
+        
+        
+        $afegir = $this->detall->afegir($comanda["id"],$producte_id,$preu,$cuinar);
         
         if (!$afegir) {
             $this->session->set_flashdata('error',"Error al afegir el producte");
@@ -154,34 +174,17 @@ class Cambrer extends CI_Controller {
             return;
         }
         
-//        if ($producte_id == NULL) {
-//            redirect(site_url("/cambrer/taula/$taula_id"));
-//            return;
-//        }
-//        
-//        $xpath = $xml->xpath("//producte[@id='$producte_id']");
-//        if (count($xpath) != 1) {
-//            redirect(site_url("/cambrer/taula/$taula_id"));
-//            return;
-//        }
-//        //la taula i el producte existeixen
-//        
-//        $comanda = $this->comanda->get_comanda_activa($taula_id);
-//        if (!$comanda) {
-//            redirect(site_url("/cambrer/taula/$taula_id"));
-//            return;
-//        }
         
-        
-        if (!$this->detall->eliminar_no_iniciat($detall_id)) {
+        if (!$this->detall->eliminar($detall_id)) {
             $this->session->set_flashdata('error',"Error al eliminar el producte");
+            
         }
         redirect(site_url("/cambrer/taula/$taula_id"));
     }
     
     public function test() {
         $this->detall->test();
-        echo "fi test";
+        echo "<br>fi test";
     }
     
     public function test2() {

@@ -25,19 +25,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php
     }
     ?>
+    
     <div class="row">
         <div class="col-md-6">
             <div class="text-center">
                 <h2>Productes</h2>
                 <table>
                     <tr>
-                        <th>Nom</th><th>Afegir</th>
+                        <th>Nom</th><th>Preu</th><th>Categoria</th><th>Afegir</th>
                     </tr>
                     <?php
-                    foreach ($productes as $id => $nom) {
+                    foreach ($productes as $producte) {
                         ?>
                         <tr>
-                            <td><?php echo $nom; ?></td><td><a href="<?php echo site_url("/cambrer/afegir/$id"); ?>">afegir</a></td>
+                            <td><?php echo $producte["nom"]; ?></td>
+                            <td><?php echo $producte["preu"]. " €"; ?></td>
+                            <td><?php echo $producte["categoria"]; ?></td>
+                            <td><a href="<?php echo site_url("/cambrer/afegir/$taula_id/".$producte["id"]); ?>">afegir</a></td>
                         </tr>
                         <?php
                     }
@@ -52,13 +56,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h2>Productes demanats</h2>
                 <table>
                     <tr>
-                        <th>Nom</th><th>Treure</th>
+                        <th>Nom</th><th>Preu</th><th>Categoria</th><th>Eliminar</th>
                     </tr>
                     <?php
                     foreach ($productes_demanats as $producte) {
                         ?>
                         <tr>
-                            <td><?php echo $producte["nom"]; ?></td><td><a href="<?php echo site_url("/cambrer/afegir/".$producte["id"]); ?>">afegir</a></td>
+                            <td><?php echo $producte["nom"]; ?></td>
+                            <td><?php echo $producte["preu"]. " €"; ?></td>
+                            <td><?php echo $producte["categoria"]; ?></td>
+                            <td><a href="<?php echo site_url("/cambrer/eliminar/$taula_id/".$producte["id"]); ?>">Eliminar</a></td>
                         </tr>
                         <?php
                     }
