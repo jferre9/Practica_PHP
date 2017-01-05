@@ -12,10 +12,13 @@ and open the template in the editor.
         <producte id="2" nom="Hamburguesa" categoria="1" preu="5.5"/>
         <producte id="3" nom="Aigua" categoria="2" preu="1"/>
         <producte id="4" nom="Cervesa" categoria="2" preu="2"/>
+        <producte id="5" nom="Entrepà de llom" categoria="3" preu="2" />
+        <producte id="6" nom="Entrepà de pernil" categoria="3" preu="2"/>
     </productes>
 	<categories>
 		<categoria id="1" nom="Plat" cuinar="1"/>
 		<categoria id="2" nom="Beguda" cuinar="0"/>
+		<categoria id="3" nom="Entrepa" cuinar="1"/>
 	</categories>
     <taules>
         <taula id="1" nom="Taula 1"/>

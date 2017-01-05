@@ -18,5 +18,10 @@ class Welcome extends CI_Controller {
         $data['vista'] = 'welcome_message';
         $this->load->view('template', $data);
     }
+    
+    
+    public function modficar() {
+        
+    }
 
 }

@@ -11,6 +11,7 @@ class Cambrer extends CI_Controller {
         $this->load->model('comanda');
         $this->load->model('detall');
         $this->load->helper('form');
+        $this->load->helper('xmldatabase');
     }
     
     
@@ -22,19 +23,16 @@ class Cambrer extends CI_Controller {
         $xml = simplexml_load_file('public/frankfurt.xml');
         //var_dump($xml);
         
-        $taules_xml = $xml->xpath('//taula');
         
         if ($this->input->post('taula')) {
             $taula = $this->input->post('taula');
             if ($taula != '0') {
                 redirect(site_url("/cambrer/taula/$taula"));
+                return;
             }
         }
         
-        $taules = array('0'=>"Selecciona una taula");
-        foreach ($taules_xml as $taula) {
-            $taules[(string)$taula["id"]] = (string)$taula["nom"];
-        }
+        $taules = get_taules($xml, TRUE);
         
         $productes = array();
         
@@ -73,27 +71,11 @@ class Cambrer extends CI_Controller {
         $data['taula_id'] = $taula_id;
         $data['taula_nom'] = (string)$xpath[0]["nom"];
         
-        $taules_xml = $xml->xpath('//taula');
-        
-        
-        
-        foreach ($taules_xml as $taula) {
-            $taules[(string)$taula["id"]] = (string)$taula["nom"];
-        }
+        $taules = get_taules($xml);
         $data['taules'] = $taules;
         
         
-        $productes = array();
-        
-        $productes_xml = $xml->xpath('//producte');
-        foreach ($productes_xml as $producte) {
-            //$productes[(string)$producte["id"]] = (string)$producte["nom"];
-            $prod["id"] = (string)$producte["id"];
-            $prod["nom"] = (string)$producte["nom"];
-            $prod['preu'] = ((string)$producte["preu"]);
-            $prod['categoria'] = (string)$xml->xpath("//categoria[@id='".(string)$producte['categoria']."']/@nom")[0];
-            $productes[] = $prod;
-        }
+        $productes = get_productes($xml);
         $data['productes'] = $productes;
         
         if ($this->session->flashdata('error') != NULL) $data['error'] = $this->session->flashdata('error');
@@ -102,12 +84,7 @@ class Cambrer extends CI_Controller {
         
         $productes_demanats = $this->detall->get_detalls_taula($taula_id);
         
-        for ($i = 0; $i < count($productes_demanats); $i++) {
-            //echo "<br>id = ".$productes_demanats[$i]['id']."<br>";
-            $producte = $xml->xpath("//producte[@id='".$productes_demanats[$i]['producte_id']."']")[0];
-            $productes_demanats[$i]["nom"] = (string)$producte['nom'];
-            $productes_demanats[$i]['categoria'] = (string)$xml->xpath("//categoria[@id='".(string)$producte['categoria']."']/@nom")[0];
-        }
+        dades_producte_cambrer($xml,$productes_demanats);
         
         
         $data['productes_demanats'] = $productes_demanats;

@@ -31,7 +31,7 @@ class Detall extends CI_Model {
         $this->db->select('detall.*, comanda.taula_id');
         $this->db->from('detall');
         $this->db->join('ordre', 'detall.id = ordre.detall_id');//nomes estan a la taula ordre si no han estat iniciats
-        $this->db->join('comanda','comanda.id = ordre.comanda_id');
+        $this->db->join('comanda','comanda.id = detall.comanda_id');
         $this->db->order_by('ordre.ordre');
         $query = $this->db->get();
 
@@ -43,7 +43,12 @@ class Detall extends CI_Model {
     }
     
     public function get_detalls_iniciats() {
-        $query = $this->db->get_where('detall',array('estat'=>1));
+        $this->db->select('detall.*, comanda.taula_id');
+        $this->db->from('detall');
+        $this->db->join('comanda','comanda.id = detall.comanda_id');
+        $this->db->where(array('estat'=>1));
+        $query = $query = $this->db->get();
+        
         
         $data = array();
         foreach ($query->result_array() as $row) {
@@ -53,7 +58,7 @@ class Detall extends CI_Model {
         
     }
     
-    public function cuinar($id) {
+    public function iniciar($id) {
         $this->db->trans_start();
 
         
@@ -67,6 +72,8 @@ class Detall extends CI_Model {
         $this->db->where('id',$id);
         $this->db->update('detall');
         
+        $this->db->where('detall_id',$id);
+        $this->db->delete('ordre');        
         
         $this->db->set('ordre', 'ordre-1', FALSE);
         $this->db->where('ordre >=', $detall["ordre"]);
@@ -80,14 +87,14 @@ class Detall extends CI_Model {
         return TRUE;
     }
     
-    public function preparar($id) {
+    public function finalitzar($id) {
 
         $detall = $this->get_detall($id);
-        if (!$detall || $detall['estat'] != 1){
+        if (!$detall || $detall['estat'] !== '1'){
             return FALSE;
         }
         
-        $this->db->set('estat',1);
+        $this->db->set('estat',2);
         $this->db->where('id',$id);
         $this->db->update('detall');
         

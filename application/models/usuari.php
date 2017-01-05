@@ -40,7 +40,7 @@ class Usuari extends CI_Model {
     
     
     public function get_usuari($id) {
-        $this->db->select('id,email,cambrer,cuiner,cobrar');
+        $this->db->select('id,email,nom,cognoms,cambrer,cuiner,cobrar');
         $this->db->where('id',$id);
         $query = $this->db->get('usuari');
         
@@ -50,6 +50,19 @@ class Usuari extends CI_Model {
             return FALSE;
         }
     }
+    
+    public function modificar($id,$data) {
+        if (isset($data['pass'])) {
+            $data['pass'] = md5($data['pass']);
+        }
+        
+        $this->db->set($data);
+        $this->db->where('id',$id);
+        $this->db->update('usuari');
+        
+    }
+
+
     
     public function eliminar($id) {
         $usuari = $this->get_usuari($id);

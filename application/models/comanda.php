@@ -32,14 +32,14 @@ class Comanda extends CI_Model {
      */
     public function get_comanda_activa($taula_id) {
         $query = $this->db->get_where('comanda', array('taula_id' => $taula_id, 'actiu' => 1));
-        
+
         if ($query->num_rows() == 1) {
             return $query->first_row('array');
         } else {
             return false;
         }
     }
-    
+
     /**
      * Crea una comanda activa per la taula o retorna la ja existent
      * @param type $taula_id
@@ -51,9 +51,27 @@ class Comanda extends CI_Model {
             return $comanda;
         }
         //tot té valor predeterminat excepte la taula_id
-        $this->db->insert('comanda',array('taula_id'=>$taula_id));
+        $this->db->insert('comanda', array('taula_id' => $taula_id));
         return $this->get_comanda_activa($taula_id);
+    }
+
+    public function get_detalls_taula($taula_id) {
+
+        $query = $this->db->query('SELECT detall.id, detall.producte_id, detall.preu, SUM(detall.preu) as preu_linia, COUNT(*) as quantitat
+                FROM detall 
+                JOIN comanda on detall.comanda_id = comanda.id
+                WHERE comanda.actiu = 1
+                AND comanda.taula_id = ?
+                GROUP BY detall.producte_id, detall.preu
+                ORDER BY producte_id, preu',$taula_id);
         
+        $data = array();
+        foreach ($query->result_array() as $row) {
+            var_dump($row);
+            echo "<br>";
+            $data[] = $row;
+        }
+        return $data;
     }
 
 }

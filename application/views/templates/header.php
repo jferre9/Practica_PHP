@@ -52,24 +52,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 if ($this->session->userdata('cobrar')) {
                                     ?>
                                     <li <?php if (strcasecmp($this->router->class, 'cobrar') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('cobrar') ?>">Cobrar</a></li>
-                                            <?php
-                                        }
-                                        if ($this->session->userdata('email') === 'admin') {
-                                            ?>
-                                            <li <?php if (strcasecmp($this->router->class, 'administrador') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('administrador') ?>">Administrar</a></li>
-                                        <?php
-                                        }
-                                    }
+                                    <?php
+                                }
+                                if ($this->session->userdata('email') === 'admin') {
                                     ?>
+                                    <li <?php if (strcasecmp($this->router->class, 'administrador') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('administrador') ?>">Administrar</a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        </ul>
+                        <?php if (strcasecmp($this->router->class, 'login') != 0) { ?>
+                            <ul class="nav navbar-nav navbar-right">
+                                <?php
+                                if ($this->session->userdata('email') !== 'admin') {
+                                    ?>
+                                    <li><a href="<?php echo site_url('welcome/modificar'); ?>"><span class="glyphicon glyphicon-user"></span> Modificar usuari</a></li>
+                                    <?php
+                                }
+                                ?>
+                                <li><a href="<?php echo site_url('login'); ?>"><span class="glyphicon glyphicon-log-out"></span> Tancar sessió</a></li>
+                            </ul>
+                        <?php } ?>
                     </div>
                 </div>
             </nav>
 
 
-            
+
         </header>
