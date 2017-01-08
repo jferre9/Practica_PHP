@@ -17,7 +17,7 @@ class Detall extends CI_Model {
         $this->db->select('detall.*');
         $this->db->from('detall');
         $this->db->join('comanda', 'detall.comanda_id = comanda.id');
-        $this->db->where(array('taula_id' => $taula_id));
+        $this->db->where(array('taula_id' => $taula_id, 'actiu' => '1'));
         $query = $this->db->get();
 
         $data = array();
@@ -81,10 +81,7 @@ class Detall extends CI_Model {
         
         $this->db->trans_complete();
 
-        if ($this->db->trans_status() === FALSE) {
-            return FALSE;
-        }
-        return TRUE;
+        return $this->db->trans_status();
     }
     
     public function finalitzar($id) {
@@ -104,19 +101,20 @@ class Detall extends CI_Model {
     
     /**
      * Obte el detall amb el seu ordre o fals si no existeix
-     * @param type $id
+     * @param type $detall_id
      * @return type 
      */
-    private function get_detall($id) {
-        $this->db->select('detall.*,ordre.ordre');
+    private function get_detall($detall_id) {
+        $this->db->select('detall.*, ordre.ordre, comanda.actiu');
         $this->db->from('detall');
         $this->db->join('ordre', 'detall.id = ordre.detall_id', 'LEFT');
-        $this->db->where(array('id' => $id));
+        $this->db->join('comanda','detall.comanda_id = comanda.id');
+        $this->db->where(array('detall.id' => $detall_id));
 
         $query = $this->db->get();
 
         if ($query->num_rows() != 1) {
-            return false;
+            return FALSE;
         }
         return $query->first_row('array');
     }
@@ -126,12 +124,11 @@ class Detall extends CI_Model {
 
         
         $detall = $this->get_detall($id);
-        if (!$detall){
+        if (!$detall || $detall["actiu"] === '0') {//no es pot eliminar detalls de comandes finalitzades
             $this->db->trans_complete();
-            return false;
+            return FALSE;
         }
         
-        $detall = $query->first_row('array');
 
         $this->db->delete('detall', array('id' => $id));
 
@@ -153,7 +150,7 @@ class Detall extends CI_Model {
 
     
     public function afegir($comanda_id, $producte_id, $preu, $cuinar) {
-        $this->db->db_debug = FALSE;
+        //$this->db->db_debug = FALSE;
         $this->db->trans_start();
 
         $estat = $cuinar == 0? 2: 0;

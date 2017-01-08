@@ -7,7 +7,16 @@ and open the template in the editor.
     Created on : 23-dic-2016, 16:24:08
     Author     : joan
 */
-html body {
+html,
+body {
   height: 100%;
+}
+.container table {
+  width: 100%;
+  text-align: left;
+}
+#error {
+  margin-top: 20px;
+  color: red;
 }
 /*# sourceMappingURL=estil.css.map */

@@ -54,6 +54,21 @@ function get_productes(&$xml) {
     return $productes;
 }
 
+function get_producte(&$xml,$producte_id) {
+    $producte_xml = $xml->xpath("//producte[@id='".$producte_id."']");
+    
+    if (count($producte_xml) == 0) return FALSE;
+    
+    $producte_xml = $producte_xml[0];
+    
+    $producte["id"] = $producte_id;
+    $producte["nom"] = (string)$producte_xml["nom"];
+    $producte["preu"] = (string)$producte_xml["preu"];
+    $producte["categoria"] =(string) $xml->xpath("//categoria[@id='".(string)$producte_xml["categoria"]."']/@nom")[0];
+    
+    return $producte;
+}
+
 function dades_producte_cambrer(&$xml, &$productes_demanats) {
     for ($i = 0; $i < count($productes_demanats); $i++) {
         //echo "<br>id = ".$productes_demanats[$i]['id']."<br>";
@@ -83,7 +98,7 @@ function get_taules_ocupades(&$xml) {
     
     $taules_ocupades = $CI->comanda->taules_ocupades();
     
-    $data = array('0',"Selecciona una taula");
+    $data = array('0'=>"Selecciona una taula");
     
     foreach ($taules_ocupades as $id_taula) {
         $data[$id_taula] = $taules[$id_taula];
@@ -92,8 +107,17 @@ function get_taules_ocupades(&$xml) {
 }
 
 
-function get_detalls_taula(&$xml, &$taula_id) {
+function get_detalls_taula(&$xml, $taula_id) {
     $CI = & get_instance();
     
+    $detalls = $CI->comanda->get_detalls_taula($taula_id);
     
+    for($i = 0; $i < count($detalls); ++$i) {
+        $producte = $xml->xpath("//producte[@id='".$detalls[$i]['producte_id']."']")[0];
+        
+        $detalls[$i]['nom'] = (string)$producte['nom'];
+        $detalls[$i]['categoria'] = (string) $xml->xpath("//categoria[@id='" . (string) $producte['categoria'] . "']/@nom")[0];
+        
+    }
+    return $detalls;
 }

@@ -11,6 +11,7 @@ class Cobrar extends CI_Controller {
         $this->load->model('comanda');
         $this->load->model('detall');
         $this->load->helper('xmldatabase');
+        $this->load->helper('form');
     }
 
     public function index() {
@@ -27,6 +28,7 @@ class Cobrar extends CI_Controller {
         
         $taules = get_taules_ocupades($xml);
         $data['taules'] = $taules;
+        $data['taula_id'] = '';
         
         
         $data['vista'] = 'cobrar';
@@ -42,17 +44,90 @@ class Cobrar extends CI_Controller {
         $xml = simplexml_load_file('public/frankfurt.xml');
         
         $taules = get_taules_ocupades($xml);
-        if (!isset($taules[$taula_id])) {
+        
+        if ($this->comanda->get_estat_taula($taula_id)) {
             redirect(site_url('/cobrar'));
             return;
         }
+        $comanda = $this->comanda->get_comanda_activa($taula_id);
+        
+        $data['comanda'] = $comanda;
         
         
         $data['taules'] = $taules;
         
-        //$productes = get_detalls_taula(&$xml,$taula_id);
-        $this->comanda->get_detalls_taula($taula_id);
+        $detalls = get_detalls_taula($xml,$taula_id);
+        $data['detalls'] = $detalls;
+        
+        $total = 0;
+        foreach ($detalls as $value) {
+            $total += floatval($value["preu"]);
+        }
+        $data['total'] = $total;
+        
+        
+        $data['productes'] = get_productes($xml);
+        $data['taula_id'] = $taula_id;
+        
+        
+        $data['vista'] = 'cobrar';
+        $this->load->view('template', $data);
+    }
+    
+    
+    public function afegir($taula_id, $producte_id) {
+        $xml = simplexml_load_file('public/frankfurt.xml');
+        
+        if ($this->comanda->get_estat_taula($taula_id)) {
+            redirect(site_url('/cobrar'));
+            return;
+        }
+        $comanda = $this->comanda->get_comanda_activa($taula_id);
+        
+        
+        $producte = get_producte($xml,$producte_id);
+        if (!$producte) {
+            $this->session->set_flashdata('error',"No existeix el producte");
+            redirect(site_url("/cobrar/$taula_id"));
+            return;
+        }
+        $res = $this->detall->afegir($comanda['id'],$producte_id,$producte['preu'],0);
+        if (!$res) {
+            $this->session->set_flashdata('error',"Error al afegir el producte;");
+            redirect(site_url("/cobrar/$taula_id"));
+            return;
+        }
+        
+        redirect(site_url("/cobrar/taula/$taula_id"));
+    }
+    
+    public function eliminar($taula_id, $detall_id) {
+        
+        if (!$this->detall->eliminar($detall_id)) {
+            $this->session->set_flashdata('error',"Error al eliminar el detall");
+        }
+        
+        redirect(site_url("/cobrar/taula/$taula_id"));
+    }
+    
+    public function finalitzar($comanda_id = NULL) {
+        if ($comanda_id == NULL) {
+            redirect(site_url("/cobrar"));
+            return;
+        }
+        
+        $res = $this->comanda->finalitzar($comanda_id);
+        var_dump($res);
+        if (!$res) {
+            $this->session->set_flashdata('error',"Error al finalitzar la comanda");
+            redirect(site_url("/cobrar"));
+        }
         
     }
+    
+    public function factura($comanda_id = NULL) {
+        
+    }
+    
     
 }
