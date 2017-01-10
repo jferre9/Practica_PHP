@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de datos: `frankfurt`
@@ -55,7 +55,7 @@ CREATE TABLE `detall` (
   `producte_id` int(11) NOT NULL,
   `preu` decimal(10,2) NOT NULL,
   `comanda_id` int(11) NOT NULL,
-  `estat` tinyint(4) NOT NULL DEFAULT '0'COMMENT
+  `estat` tinyint(4) NOT NULL DEFAULT '0'
 ) ;
 
 --
@@ -105,7 +105,7 @@ INSERT INTO `ordre` (`detall_id`, `ordre`) VALUES
 --
 
 CREATE TABLE `usuari` (
-  `id` int(11) NOT NULL,
+  `id` int(11) PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(32) NOT NULL,
   `nom` varchar(32) NOT NULL,
   `cognoms` varchar(32) NOT NULL,
@@ -143,7 +143,6 @@ ALTER TABLE `ordre`
 -- Indices de la tabla `usuari`
 --
 ALTER TABLE `usuari`
-  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -155,11 +154,7 @@ ALTER TABLE `usuari`
 --
 ALTER TABLE `comanda`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT de la tabla `detall`
---
-ALTER TABLE `detall`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `usuari`
 --
