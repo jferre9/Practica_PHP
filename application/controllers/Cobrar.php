@@ -45,7 +45,7 @@ class Cobrar extends CI_Controller {
         
         $taules = get_taules_ocupades($xml);
         
-        if ($this->comanda->get_estat_taula($taula_id)) {
+        if (!$this->comanda->get_estat_taula($taula_id)) {
             redirect(site_url('/cobrar'));
             return;
         }

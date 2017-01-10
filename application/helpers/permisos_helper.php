@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('permisos')) {
 
-    function loguejat($controlador = 'welcome') {
+    function loguejat($controlador = 'home') {
         //no es pot fer servir el $this a un helper
         $CI = & get_instance();
         $loguejat = $CI->session->userdata('loguejat');

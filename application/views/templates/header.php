@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-                            <li <?php if (strcasecmp($this->router->class, 'welcome') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('welcome') ?>">Home</a></li>
+                            <li <?php if (strcasecmp($this->router->class, 'home') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('home') ?>">Home</a></li>
                             <?php
                             if (strcasecmp($this->router->class, 'login') != 0) {
                                 if ($this->session->userdata('cuiner')) {

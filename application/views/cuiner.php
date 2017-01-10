@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
                             <td><?php echo $producte["taula"]; ?></td>
-                            <td><a href="<?php echo site_url("/cuiner/iniciar/".$producte["id"]); ?>">Iniciar</a></td>
+                            <td><a href="<?php echo site_url("/cuiner/iniciar/".$producte["id"]); ?>" class="btn btn-success">Iniciar</a></td>
                         </tr>
                         <?php
                     }
@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
                             <td><?php echo $producte["taula"]; ?></td>
-                            <td><a href="<?php echo site_url("/cuiner/acabar/".$producte["id"]); ?>">Acabar</a></td>
+                            <td><a href="<?php echo site_url("/cuiner/acabar/".$producte["id"]); ?>" class="btn btn-warning">Acabar</a></td>
                         </tr>
                         <?php
                     }

@@ -39,36 +39,65 @@ class Login extends CI_Controller {
         $this->load->view('template', $data);
     }
 
-    public function recuperar() {
-        if ($this->input->post('email') && $this->usuari->comprovar_email($this->input->post('email'))) {
-            
-            
-            
+    public function recuperar($id = NULL, $codi = NULL) {
+
+        $email = $this->input->post('email');
+
+        if ($email && $dades = $this->usuari->recuperar_email($email)) {
+
+            var_dump($dades);
+
             $config = Array(
-                'protocol' => 'sendmail',
-                'smtp_host' => 'your domain SMTP host',
-                'smtp_port' => 25,
-                'smtp_user' => 'SMTP Username',
-                'smtp_pass' => 'SMTP Password',
-                'smtp_timeout' => '4',
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => 465,
+                'smtp_user' => 'w2.joan.ferre@gmail.com',
+                'smtp_pass' => '123456789AA',
                 'mailtype' => 'html',
                 'charset' => 'iso-8859-1'
             );
+
+            //var_dump($this->usuari->comprovar_email($this->input->post('email')));
             $this->load->library('email', $config);
             $this->email->set_newline("\r\n");
 
-            $this->email->from('your mail id', 'Anil Labs');
-            $data = array(
-                'userName' => 'Anil Kumar Panigrahi'
-            );
-            $this->email->to($userEmail);  // replace it with receiver mail id
-            $this->email->subject($subject); // replace it with relevant subject
+            $this->email->from('w2.joan.ferre@gmail.com', 'Frankfurt');
+            $this->email->to($email);
+//            $this->email->cc('another@another-example.com');
+//            $this->email->bcc('them@their-example.com');
 
-            $body = $this->load->view('emails/anillabs.php', $data, TRUE);
-            $this->email->message($body);
+            $this->email->subject('Recuperar la contrasenya');
+            $this->email->message("<a href='" . site_url("login/modificar/" . $dades['id'] . "/" . $dades['codi']) . "'>Recuperar</a>");
+
             $this->email->send();
         }
         $data['vista'] = 'recuperar';
+        $this->load->view('template', $data);
+    }
+
+    public function modificar($id = NULL, $codi = NULL) {
+        if ($id == NULL || $codi == NULL) {
+            redirect(site_url('login'));
+        }
+        
+        $error = FALSE;
+        
+        $pass = $this->input->post('pass');
+        if ($pass) {
+            if ($pass != $this->input->post('passconf')) {
+                $error = "La contrasenya no coincideix";
+            } else if ($this->usuari->modificar_contrasenya($id,$codi,$pass)) {
+                $data['ok'] = "Contrasenya modificada correctament";
+            } else {
+                $error = "Error al modificar la contrasneya";
+            }
+        }
+        $data['error'] = $error;
+        
+        $data['id'] = $id;
+        $data['codi'] = $codi;
+ 
+        $data['vista'] = 'recuperar_form';
         $this->load->view('template', $data);
     }
 
