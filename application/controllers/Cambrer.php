@@ -65,6 +65,8 @@ class Cambrer extends CI_Controller {
             return;
         }
 
+        var_dump($this->comanda->get_estat_taula($taula_id));
+        
         $data['taula_estat'] = $this->comanda->get_estat_taula($taula_id) ? "Ocupada" : "Lliure";
 
         $data['taula_id'] = $taula_id;
@@ -121,17 +123,20 @@ class Cambrer extends CI_Controller {
             redirect(site_url("/cambrer/taula/$taula_id"));
             return;
         }
+        
+        $xpath = $xpath[0];
 
 
         //la taula i el producte existeixen
         $comanda = $this->comanda->crear($taula_id);
         
-        var_dump($comanda);
 
-        $preu = (double) $xpath[0]["preu"];
+        $preu = (double) $xpath["preu"];
 
-        $cuinar = (int) $xml->xpath("//categoria[@id='" . (string) $xpath[0]['categoria'] . "']/@cuinar")[0];
+        $cuinar = $xml->xpath("//categoria[@id='" . (string) $xpath['categoria'] . "']/@cuinar");
+        $cuinar = (int)$cuinar[0];
 
+        
 
         $afegir = $this->detall->afegir($comanda["id"], $producte_id, $preu, $cuinar);
 

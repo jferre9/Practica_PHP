@@ -78,7 +78,7 @@ class Cobrar extends CI_Controller {
     public function afegir($taula_id, $producte_id) {
         $xml = simplexml_load_file('public/frankfurt.xml');
         
-        if ($this->comanda->get_estat_taula($taula_id)) {
+        if (!$this->comanda->get_estat_taula($taula_id)) {
             redirect(site_url('/cobrar'));
             return;
         }
@@ -117,16 +117,33 @@ class Cobrar extends CI_Controller {
         }
         
         $res = $this->comanda->finalitzar($comanda_id);
-        var_dump($res);
         if (!$res) {
             $this->session->set_flashdata('error',"Error al finalitzar la comanda");
             redirect(site_url("/cobrar"));
+        } else {
+            redirect(site_url("/factura/$comanda_id"));
         }
         
     }
     
     public function factura($comanda_id = NULL) {
-        
+        if ($comanda_id == NULL) {
+            redirect(site_url("/cobrar"));
+            return;
+        }
+    }
+    
+    public function facturapdf($comanda_id = NULL) {
+        if ($comanda_id == NULL) {
+            redirect(site_url("/cobrar"));
+            return;
+        }
+    }
+    
+    public function historic($pagina = 0) {
+        $pagina = intval($pagina);
+        $historic = $this->comanda->get_historic($pagina);
+        var_dump($historic);
     }
     
     

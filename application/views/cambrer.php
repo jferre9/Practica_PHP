@@ -29,14 +29,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     ?>
     
     <br>
-    <p><b>Taula:</b> <?= $taula_nom ?><br>
-        <b>Estat:</b> <?= $taula_estat ?></p>
+    <p><b>Taula:</b> <?php echo $taula_nom ?><br>
+        <b>Estat:</b> <?php echo $taula_estat ?></p>
     
     <div class="row">
         <div class="col-md-6">
             <div class="text-center">
                 <h2>Productes</h2>
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>Nom</th><th>Preu</th><th>Categoria</th><th>Afegir</th>
                     </tr>
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["preu"]. " €"; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
-                            <td><a href="<?php echo site_url("/cambrer/afegir/$taula_id/".$producte["id"]); ?>">afegir</a></td>
+                            <td><a class="btn btn-success" href="<?php echo site_url("/cambrer/afegir/$taula_id/".$producte["id"]); ?>">Afegir</a></td>
                         </tr>
                         <?php
                     }
@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="col-md-6">
             <div class="text-center">
                 <h2>Productes demanats</h2>
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>Nom</th><th>Preu</th><th>Categoria</th><th>Eliminar</th>
                     </tr>
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["preu"]. " €"; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
-                            <td><a href="<?php echo site_url("/cambrer/eliminar/$taula_id/".$producte["id"]); ?>">Eliminar</a></td>
+                            <td><a class="btn btn-danger" href="<?php echo site_url("/cambrer/eliminar/$taula_id/".$producte["id"]); ?>"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a></td>
                         </tr>
                         <?php
                     }

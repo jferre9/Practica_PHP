@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="col-md-6">
             <div class="text-center">
                 <h2>Pendents</h2>
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>Nom</th><th>Categoria</th><th>Taula</th><th>Iniciar</th>
                     </tr>
@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="col-md-6">
             <div class="text-center">
                 <h2>Cuinant</h2>
-                <table>
+                <table class="table table-hover">
                     <tr>
                         <th>Nom</th><th>Categoria</th><th>Taula</th><th>Acabar</th>
                     </tr>
