@@ -47,9 +47,9 @@ class Comanda extends CI_Model {
         return $query->num_rows() > 0;
     }
 
-    public function get_historic($pagina) {
+    public function get_historic($pagina, $limit) {
         
-        $limit = 10;
+        
 
         $this->db->select('id,preu_final,data_pagament');
         $this->db->from('comanda');
@@ -120,6 +120,27 @@ class Comanda extends CI_Model {
             $data[] = $row;
         }
         return $data;
+    }
+    
+    /**
+     * Retorna els detalls de la comanda finalitzada
+     * @param type $comanda_id
+     * @return type
+     */
+    public function get_detalls_comanda($comanda_id) {
+        $query = $this->db->get_where('detall',array('comanda_id'=>$comanda_id, 'actiu'=>0));
+        $data = array();
+        foreach ($query->result_array() as $row) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+    
+    public function get_total_comanda($comanda_id) {
+        $this->db->select('preu_total');
+        $this->db->from('comanda');
+        $this->db->where(array('comanda_id'=>$comanda_id));
+        //TODO
     }
 
     public function finalitzar($comanda_id) {

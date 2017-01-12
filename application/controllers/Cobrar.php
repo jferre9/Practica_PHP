@@ -121,7 +121,7 @@ class Cobrar extends CI_Controller {
             $this->session->set_flashdata('error',"Error al finalitzar la comanda");
             redirect(site_url("/cobrar"));
         } else {
-            redirect(site_url("/factura/$comanda_id"));
+            redirect(site_url("/cobrar/factura/$comanda_id"));
         }
         
     }
@@ -131,6 +131,24 @@ class Cobrar extends CI_Controller {
             redirect(site_url("/cobrar"));
             return;
         }
+        
+        $detalls = $this->comanda->get_detalls_comanda($comanda_id);
+        
+        if (count($detalls) == 0) {
+            redirect(site_url("/cobrar"));
+            return;
+        }
+        
+        $xml = simplexml_load_file('public/frankfurt.xml');
+        dades_producte_cambrer($xml,$detalls);
+        
+        $data['detalls'] = $detalls;
+        
+        
+        
+        var_dump($detalls);
+        $data['vista'] = 'factura';
+        $this->load->view('template', $data);
     }
     
     public function facturapdf($comanda_id = NULL) {
@@ -138,12 +156,22 @@ class Cobrar extends CI_Controller {
             redirect(site_url("/cobrar"));
             return;
         }
+        
+        $this->detall->get_detalls_comanda($comanda_id);
+        
+        
     }
     
     public function historic($pagina = 0) {
         $pagina = intval($pagina);
-        $historic = $this->comanda->get_historic($pagina);
-        var_dump($historic);
+        $data['pagina'] = $pagina;
+        $limit = 10;
+        $data['limit'] = $limit;
+        $historic = $this->comanda->get_historic($pagina, $limit);
+        $data['historic'] = $historic;
+        
+        $data['vista'] = 'historic';
+        $this->load->view('template', $data);
     }
     
     
