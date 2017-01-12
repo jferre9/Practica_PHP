@@ -14,6 +14,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container">
     <?php
+    if (isset($error)) {
+        echo "<div id='error'>$error</div>";
+    }
+    ?>
+    <?php
     if (isset($detalls)) {
         ?>
     <div class="row">

@@ -4,6 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container">
     <h2 >Recuperar contrasenya</h2>
+    <?php
+    if (isset($error)) {
+        echo "<div id='error'>$error</div>";
+    }
+    ?>
     <form method="post" class="form-inline">
         <div class="form-group">
             <label for="email">Email:</label>

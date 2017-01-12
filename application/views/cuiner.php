@@ -21,6 +21,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     ?>
     </form>
     
+    <?php
+    if (isset($error)) {
+        echo "<div id='error'>$error</div>";
+    }
+    ?>
+    
     <div class="row">
         <div class="col-md-6">
             <div class="text-center">

@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/M07_DWS_PHP/UF2/Practica_PHP';
-
+//$config['base_url'] = 'http://localhost/M07_DWS_PHP/UF2/Practica_PHP';
+$config['base_url'] =  'http://127.0.0.1/edsa-practica_php';
 /*
 |--------------------------------------------------------------------------
 | Index File

@@ -2,7 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<?php if ($error) echo $error; ?>
+<?php
+    if (isset($error)) {
+        echo "<div id='error'>$error</div>";
+    }
+    ?>
 <div class="container">
     <form class="form-horizontal" name="f1" method="post" action="<?php echo site_url('login') ?>">
         <div class="form-group">

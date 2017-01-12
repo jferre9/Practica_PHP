@@ -13,6 +13,9 @@ class Home extends CI_Controller {
     public function index() {
         //var_dump($this->session->userdata('loguejat'));
         //var_dump($data);
+        $data['error'] = $this->session->flashdata('error');
+        
+        
         $data['vista'] = 'welcome_message';
         $this->load->view('template', $data);
     }

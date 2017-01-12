@@ -64,13 +64,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                         <?php if (strcasecmp($this->router->class, 'login') != 0) { ?>
                             <ul class="nav navbar-nav navbar-right">
-                                <?php
-                                if ($this->session->userdata('email') !== 'admin') {
-                                    ?>
-                                    <li><a href="<?php echo site_url('welcome/modificar'); ?>"><span class="glyphicon glyphicon-user"></span> Modificar usuari</a></li>
-                                    <?php
-                                }
-                                ?>
                                 <li><a href="<?php echo site_url('login'); ?>"><span class="glyphicon glyphicon-log-out"></span> Tancar sessió</a></li>
                             </ul>
                         <?php } ?>

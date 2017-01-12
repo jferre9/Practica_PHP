@@ -10,11 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body-->
 
 
-<a href="<?php echo site_url('administrador/afegir') ?>">Afegir usuari</a>
 
 
-<div>
-    <table>
+
+<div class="container">
+    <table class="table table-hover">
         <tr>
             <th>Email</th><th>Nom</th><th>Cuiner</th><th>Cambrer</th><th>Cobrar</th><th>Editar</th><th>Borrar</th>
         </tr>
@@ -26,30 +26,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td><?php echo $u['nom'] ?></td>
                 <td><?php
         if ($u['cuiner']) {
-            echo '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+            echo '<span style="color:green" class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
         } else {
-            echo '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+            echo '<span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
         }
             ?></td>
                 <td><?php
                     if ($u['cambrer']) {
-                        echo '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                        echo '<span style="color:green" class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
                     } else {
-                        echo '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+                        echo '<span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
                     }
                     ?></td>
                 <td><?php
                     if ($u['cobrar']) {
-                        echo '<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
+                        echo '<span style="color:green" class="glyphicon glyphicon-ok" aria-hidden="true"></span>';
                     } else {
-                        echo '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+                        echo '<span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
                     }
                     ?></td>
                 <td>
-                    <a href="<?php echo site_url("administrador/editar/".$u['id']) ?>">Editar</a>
+                    <a class="btn btn-success" href="<?php echo site_url("administrador/editar/".$u['id']) ?>">Editar</a>
                 </td>
                 <td>
-                    <a href="<?php echo site_url("administrador/borrar/".$u['id']) ?>">Borrar</a>
+                    <a class="btn btn-danger" href="<?php echo site_url("administrador/borrar/".$u['id']) ?>"><i class="fa fa-trash" aria-hidden="true"></i> Borrar</a>
                 </td>
             </tr>
             <?php
@@ -57,6 +57,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ?>
 
     </table>
+    
+    <a class="btn btn-success" href="<?php echo site_url('administrador/afegir') ?>">Afegir usuari</a>
 </div>
 
 

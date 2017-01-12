@@ -204,7 +204,7 @@ class Detall extends CI_Model {
 
         $query = $this->db->get();
 
-        var_dump($query->row_array());
+        //var_dump($query->row_array());
     }
 
     public function test2() {

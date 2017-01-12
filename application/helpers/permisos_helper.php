@@ -31,13 +31,13 @@ if (!function_exists('permisos')) {
         if ($permis === 'admin') {
             if ($CI->session->userdata('email') !== 'admin') {
                 $CI->session->set_flashdata('error', "No tens permisos per accedir a la pagina $controlador.");
-                redirect('welcome');
+                redirect('');
             }
         } else {
             $tePermis = $CI->session->userdata($permis);
             if ($tePermis == NULL || !$tePermis) {
                 $CI->session->set_flashdata('error', "No tens permisos per accedir a la pagina $controlador.");
-                redirect('welcome');
+                redirect('');
             }
         }
     }

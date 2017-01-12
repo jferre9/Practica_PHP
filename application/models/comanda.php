@@ -48,8 +48,8 @@ class Comanda extends CI_Model {
     }
 
     public function get_historic($pagina, $limit) {
-        
-        
+
+
 
         $this->db->select('id,preu_final,data_pagament');
         $this->db->from('comanda');
@@ -57,7 +57,7 @@ class Comanda extends CI_Model {
         $this->db->limit($pagina * $limit + $limit, $pagina * $limit);
 //        var_dump($this->db->get_compiled_select());
         $query = $this->db->get();
-        
+
         $data = array();
         foreach ($query->result_array() as $row) {
             $data[] = $row;
@@ -121,33 +121,43 @@ class Comanda extends CI_Model {
         }
         return $data;
     }
-    
+
     /**
      * Retorna els detalls de la comanda finalitzada
      * @param type $comanda_id
      * @return type
      */
     public function get_detalls_comanda($comanda_id) {
-        $this->db->select('detall.*');
-        $this->db->from('detall');
-        $this->db->join('comanda','comanda.id = detall.comanda_id');
-        $this->db->where(array('comanda.id'=>$comanda_id, 'comanda.actiu'=>0));
-        $query = $this->db->get();
+//        $this->db->select('detall.*');
+//        $this->db->from('detall');
+//        $this->db->join('comanda','comanda.id = detall.comanda_id');
+//        $this->db->where(array('comanda.id'=>$comanda_id, 'comanda.actiu'=>0));
+//        $query = $this->db->get();
+//        $data = array();
+//        foreach ($query->result_array() as $row) {
+//            $data[] = $row;
+//        }
+//        return $data;
+        $query = $this->db->query("SELECT d.id, d.producte_id, COUNT(d.id) as quantitat, SUM(d.preu) as preu
+                                    FROM `detall` d 
+                                    JOIN comanda c on c.id = d.comanda_id
+                                    WHERE c.actiu = 0 AND c.id = ?
+                                    GROUP BY d.producte_id, d.preu", $comanda_id);
         $data = array();
         foreach ($query->result_array() as $row) {
             $data[] = $row;
         }
         return $data;
     }
-    
-    public function get_total_comanda($comanda_id) {
-        $this->db->select('preu_final');
-        $this->db->where(array('id'=>$comanda_id));
-        $query = $this->db->get('comanda');
+
+    public function get_comanda($comanda_id) {
+        $query = $this->db->get_where('comanda',array('id' => $comanda_id));
         
-        $row = $query->row();
-        if (!isset($row)) return FALSE;
-        return $row->preu_final;
+        if ($query->num_rows() == 1) {
+            return $query->first_row('array');
+        } else {
+            return FALSE;
+        }
     }
 
     public function finalitzar($comanda_id) {

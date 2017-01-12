@@ -42,10 +42,7 @@ class Cambrer extends CI_Controller {
 
         $data['taula_id'] = '';
         
-        $error = $this->session->flashdata('error');
-        if ($error != NULL) {
-            $data['error'] = $error;
-        }
+        $data['error'] = $this->session->flashdata('error');
 
         $data['vista'] = 'cambrer';
         $this->load->view('template', $data);
@@ -65,7 +62,7 @@ class Cambrer extends CI_Controller {
             return;
         }
 
-        var_dump($this->comanda->get_estat_taula($taula_id));
+        //var_dump($this->comanda->get_estat_taula($taula_id));
         
         $data['taula_estat'] = $this->comanda->get_estat_taula($taula_id) ? "Ocupada" : "Lliure";
 

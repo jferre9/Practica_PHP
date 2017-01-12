@@ -39,7 +39,7 @@ class Usuari extends CI_Model {
         
         $codi = md5(rand().time());
         
-        var_dump($codi);
+        //var_dump($codi);
         $this->db->set('recuperar',$codi);
         $this->db->where('id',$id);
         $this->db->update('usuari');

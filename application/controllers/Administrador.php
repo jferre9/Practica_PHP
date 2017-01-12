@@ -12,7 +12,7 @@ class Administrador extends CI_Controller {
     }
 
     public function index() {
-        echo $this->session->userdata('email');
+        //echo $this->session->userdata('email');
         $this->load->model('usuari');
         $data['usuaris'] = $this->usuari->llista_usuaris();
 
@@ -57,7 +57,7 @@ class Administrador extends CI_Controller {
             ));
 
             if ($this->form_validation->run()) {
-                echo "Tot correcte";
+                //echo "Tot correcte";
                 unset($_POST['enviar']);
                 unset($_POST['passconf']);
                 $this->usuari->insert_entry($_POST);//TODO treure $_POST
@@ -66,6 +66,8 @@ class Administrador extends CI_Controller {
                 return;
             }
         }
+        
+        $data['usuari'] = array('email'=>'','nom'=>'','cognoms'=>'','cuiner'=>FALSE, 'cambrer'=>FALSE, 'cobrar'=>FALSE);//per aprofitar la vista de edicio i registre
 
         $data['vista'] = 'registre';
         $this->load->view('template', $data);
@@ -147,7 +149,8 @@ class Administrador extends CI_Controller {
         }
 
 
-        $data['vista'] = 'edicio_admin';
+        
+        $data['vista'] = 'registre';
         $this->load->view('template', $data);
     }
 

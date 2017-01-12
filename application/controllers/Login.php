@@ -24,11 +24,11 @@ class Login extends CI_Controller {
             $email = $this->input->post('email');
             $pass = $this->input->post('pass');
             $usuari = $this->usuari->login($email, $pass);
-            var_dump($usuari);
+            //var_dump($usuari);
             if ($usuari) {
                 $usuari['loguejat'] = TRUE;
                 $this->session->set_userdata($usuari);
-                var_dump($usuari);
+                //var_dump($usuari);
                 redirect(site_url($controlador));
             } else {
                 $data['error'] = 'Usuari o contrasenya incorrectes';
@@ -45,7 +45,7 @@ class Login extends CI_Controller {
 
         if ($email && $dades = $this->usuari->recuperar_email($email)) {
 
-            var_dump($dades);
+            //var_dump($dades);
 
             $config = Array(
                 'protocol' => 'smtp',
