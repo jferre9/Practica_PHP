@@ -128,7 +128,11 @@ class Comanda extends CI_Model {
      * @return type
      */
     public function get_detalls_comanda($comanda_id) {
-        $query = $this->db->get_where('detall',array('comanda_id'=>$comanda_id, 'actiu'=>0));
+        $this->db->select('detall.*');
+        $this->db->from('detall');
+        $this->db->join('comanda','comanda.id = detall.comanda_id');
+        $this->db->where(array('comanda.id'=>$comanda_id, 'comanda.actiu'=>0));
+        $query = $this->db->get();
         $data = array();
         foreach ($query->result_array() as $row) {
             $data[] = $row;
@@ -137,10 +141,13 @@ class Comanda extends CI_Model {
     }
     
     public function get_total_comanda($comanda_id) {
-        $this->db->select('preu_total');
-        $this->db->from('comanda');
-        $this->db->where(array('comanda_id'=>$comanda_id));
-        //TODO
+        $this->db->select('preu_final');
+        $this->db->where(array('id'=>$comanda_id));
+        $query = $this->db->get('comanda');
+        
+        $row = $query->row();
+        if (!isset($row)) return FALSE;
+        return $row->preu_final;
     }
 
     public function finalitzar($comanda_id) {

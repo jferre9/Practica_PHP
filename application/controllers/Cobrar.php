@@ -146,7 +146,11 @@ class Cobrar extends CI_Controller {
         
         
         
-        var_dump($detalls);
+        $this->comanda->get_detalls_comanda($comanda_id);
+        $data['total'] = $this->comanda->get_total_comanda($comanda_id);
+        
+        $data['comanda_id'] = $comanda_id;
+        
         $data['vista'] = 'factura';
         $this->load->view('template', $data);
     }
@@ -157,8 +161,8 @@ class Cobrar extends CI_Controller {
             return;
         }
         
-        $this->detall->get_detalls_comanda($comanda_id);
-        
+        $this->comanda->get_detalls_comanda($comanda_id);
+        $data['total'] = $this->comanda->get_total_comanda($comanda_id);
         
     }
     
