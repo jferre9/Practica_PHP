@@ -51,12 +51,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                                 if ($this->session->userdata('cobrar')) {
                                     ?>
-                                    <li <?php if (strcasecmp($this->router->class, 'cobrar') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('cobrar') ?>">Cobrar</a></li>
-                                    <?php
+                                    <li <?php if (strcasecmp($this->router->class, 'cobrar') == 0 && !((strcasecmp($this->router->method,'historic') == 0) || strcasecmp($this->router->method,'factura') == 0)) echo 'class="active"'; ?>><a href="<?php echo site_url('cobrar') ?>">Cobrar</a></li>
+                                    <li <?php if (strcasecmp($this->router->class, 'cobrar') == 0 && ((strcasecmp($this->router->method,'historic') == 0) || strcasecmp($this->router->method,'factura') == 0) ) echo 'class="active"'; ?>><a href="<?php echo site_url('cobrar/historic') ?>">Factures</a></li>
+                                        <?php
                                 }
                                 if ($this->session->userdata('email') === 'admin') {
                                     ?>
                                     <li <?php if (strcasecmp($this->router->class, 'administrador') == 0) echo 'class="active"'; ?>><a href="<?php echo site_url('administrador') ?>">Administrar</a></li>
+                                     
                                     <?php
                                 }
                             }
