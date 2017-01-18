@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h2>Pendents</h2>
                 <table class="table table-hover">
                     <tr>
-                        <th>Nom</th><th>Categoria</th><th>Taula</th><th>Iniciar</th>
+                        <th>Nom</th><th>Categoria</th><th>Taula</th><th class="text-center">Iniciar</th>
                     </tr>
                     <?php
                     foreach ($productes as $producte) {
@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
                             <td><?php echo $producte["taula"]; ?></td>
-                            <td><a href="<?php echo site_url("/cuiner/iniciar/".$producte["id"]); ?>" class="btn btn-success">Iniciar</a></td>
+                            <td class="text-center"><a href="<?php echo site_url("/cuiner/iniciar/".$producte["id"]); ?>" class="btn btn-success">Iniciar</a></td>
                         </tr>
                         <?php
                     }
@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h2>Cuinant</h2>
                 <table class="table table-hover">
                     <tr>
-                        <th>Nom</th><th>Categoria</th><th>Taula</th><th>Acabar</th>
+                        <th>Nom</th><th>Categoria</th><th>Taula</th><th class="text-center">Acabar</th>
                     </tr>
                     <?php
                     foreach ($productes_iniciats as $producte) {
@@ -66,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <td><?php echo $producte["nom"]; ?></td>
                             <td><?php echo $producte["categoria"]; ?></td>
                             <td><?php echo $producte["taula"]; ?></td>
-                            <td><a href="<?php echo site_url("/cuiner/acabar/".$producte["id"]); ?>" class="btn btn-warning">Acabar</a></td>
+                            <td class="text-center"><a href="<?php echo site_url("/cuiner/acabar/".$producte["id"]); ?>" class="btn btn-warning">Acabar</a></td>
                         </tr>
                         <?php
                     }

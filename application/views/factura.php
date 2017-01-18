@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="container">
+    <h2 class="text-center">Factura</h2>
     <table class="table table-hover">
         <tr>
             <th>Producte</th><th>Categoria</th><th>Quantitat</th><th>Preu</th>

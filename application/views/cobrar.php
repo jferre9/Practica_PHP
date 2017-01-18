@@ -23,9 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ?>
     <div class="row">
         <div class="col-md-6">
+            <h2 class="text-center">Productes Demanats</h2>
     <table class="table table-hover">
             <tr>
-                <th>Producte</th><th>Categoria</th><th>Preu</th><th>Eliminar</th>
+                <th>Producte</th><th>Categoria</th><th>Preu</th><th class="text-center">Eliminar</th>
             </tr>
             <?php
             foreach ($detalls as $prod) {
@@ -34,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><?php echo $prod["nom"]; ?></td>
                     <td><?php echo $prod["categoria"]; ?></td>
                     <td><?php echo $prod["preu"]; ?> €</td>
-                    <td><a class="btn btn-danger" href="<?php echo site_url("/cobrar/eliminar/$taula_id/".$prod["id"]) ?>"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a></td>
+                    <td class="text-center"><a class="btn btn-danger" href="<?php echo site_url("/cobrar/eliminar/$taula_id/".$prod["id"]) ?>"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a></td>
                 </tr>
 
                 <?php
@@ -48,9 +49,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <div class="col-md-6">
+            <h2 class="text-center">Afegir productes</h2>
         <table class="table table-hover">
             <tr>
-                <th>Nom</th><th>Categoria</th><th>Preu</th><th>Afegir</th>
+                <th>Nom</th><th>Categoria</th><th>Preu</th><th class="text-center">Afegir</th>
             </tr>
             <?php
             foreach ($productes as $producte) {
@@ -59,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <td><?php echo $producte["nom"]; ?></td>
                     <td><?php echo $producte["categoria"]; ?></td>
                     <td><?php echo $producte["preu"] . " €"; ?></td>
-                    <td><a class="btn btn-success" href="<?php echo site_url("/cobrar/afegir/$taula_id/" . $producte["id"]); ?>">Afegir</a></td>
+                    <td class="text-center"><a class="btn btn-success" href="<?php echo site_url("/cobrar/afegir/$taula_id/" . $producte["id"]); ?>">Afegir</a></td>
                 </tr>
                 <?php
             }

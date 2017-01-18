@@ -7,10 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     <div class="container">
-
+        <h2 class="text-center">Factures</h2>
         <table class="table table-hover">
             <tr>
-                <th>Data</th><th>Import</th><th>Veure</th>
+                <th>Data</th><th>Import</th><th class="text-center">Veure</th>
             </tr>
 
             <?php
@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <tr>
                     <td><?php echo $value['data_pagament']; ?></td>
                     <td><?php echo $value['preu_final'] . " €"; ?></td>
-                    <td><a class="btn btn-success" href="<?php echo site_url("/cobrar/factura/" . $value['id']); ?>">Veure</a></td>
+                    <td class="text-center"><a class="btn btn-success" href="<?php echo site_url("/cobrar/factura/" . $value['id']); ?>">Veure</a></td>
                 </tr>
                 <?php
             }
