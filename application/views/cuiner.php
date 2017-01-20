@@ -5,13 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container">
     
-    <?php
-    
-    if ($error) {
-        echo "<div id='error'>$error</div>";
-    }
-    
-    ?>
     
     <form method="post" action="<?php echo site_url("/cuiner") ?>">
         Filtre: 
